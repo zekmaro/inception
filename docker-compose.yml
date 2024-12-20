@@ -20,6 +20,7 @@ services:
       - "3306:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
+    restart: on-failure
 
   nginx:
     build:
@@ -29,6 +30,17 @@ services:
       - "8080:80"
     depends_on:
       - wordpress
+    restart: on-failure
 
   wordpress:
-    build: ./wordpress
+    build:
+      context: ./wordpress
+    container_name: wordpress
+    ports:
+      - "9000"
+    depends_on:
+      - mariadb
+    volumes:
+      
+    restart: on-failure
+

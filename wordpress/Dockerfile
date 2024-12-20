@@ -8,4 +8,4 @@ RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz \
 
 WORKDIR /var/www/html
 
-EXPOSE 80
+EXPOSE 9000
