@@ -2,9 +2,9 @@ version: '3.9'
 
 services:
   mariadb:
-    build:
-      context: ./mariadb
+    build: containers/mariadb/.
     container_name: mariadb
+    env_file: .env
     environtment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -23,24 +23,42 @@ services:
     restart: on-failure
 
   nginx:
-    build:
-      context: ./nginx
+    build: containers/nginx/.
     container_name: nginx
+    env_file: .env
+    environment:
+      NGINX_HOST: ${NGINX_HOST}
+      NGINX_PORT: ${NGINX_PORT}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     ports:
-      - "8080:80"
-    depends_on:
-      - wordpress
+      - "80:80"
+    volumes:
+      - nginx_data:/var/www/html
     restart: on-failure
 
   wordpress:
-    build:
-      context: ./wordpress
+    build: containers/wordpress/.
     container_name: wordpress
+    env_file: .env
+    environment:
+      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     ports:
-      - "9000"
-    depends_on:
-      - mariadb
+      - "80"
     volumes:
-      
+      - wordpress_data:/var/www/html
     restart: on-failure
 
