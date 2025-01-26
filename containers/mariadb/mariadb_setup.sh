@@ -1,4 +1,5 @@
 #!/bin/bash
+
 if [ ! -d /var/lib/mysql/mysql ]; then
   echo "Initializing MariaDB"
 
