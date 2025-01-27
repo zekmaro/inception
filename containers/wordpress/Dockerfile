@@ -1,6 +1,5 @@
 FROM debian:buster
 
-# Install dependencies
 RUN apt-get update && apt-get install -y \
     php \
     php-mysql \
@@ -9,6 +8,8 @@ RUN apt-get update && apt-get install -y \
     wget \
     unzip && \
     apt-get clean
+
+RUN mkdir -p /var/www/html
 
 RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz \
     && tar -xvzf wordpress.tar.gz -C /var/www/html \
