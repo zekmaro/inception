@@ -48,12 +48,15 @@ services:
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
       WORDPRESS_DB_USER: ${MYSQL_USER}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - mariadb:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:80"]
+      test: ["CMD-SHELL", "wp core is-installed --allow-root || exit 1"]
       interval: 10s
       retries: 5
       start_period: 30s
-      timeout: 10s
+      timeout: 5s
     ports:
       - "80"
     volumes:
