@@ -1,5 +1,11 @@
 #!/bin/bash
 
+echo "Waiting for MariaDB to be ready..."
+while ! mysqladmin ping -h"${WORDPRESS_DB_HOST}" -u"${WORDPRESS_DB_USER}" -p"${WORDPRESS_DB_PASSWORD}" --silent; do
+  sleep 1
+done
+echo "MariaDB is ready!"
+
 if [ ! -f /var/www/html/wp-config.php ]; then
   echo "Wordpress configuration file not found. Setting it up."
 
@@ -14,7 +20,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 fi
 
 if [ ! -d /var/www/html/wp-content ]; then
-  echo "WordPress not found. Installing it."
+  echo "WordPress not found. Installing it. Setting up admin user."
 
   wp core download --path=/var/www/html --allow-root
   wp core install \
@@ -29,5 +35,6 @@ if [ ! -d /var/www/html/wp-content ]; then
   echo "WordPress installed."
 fi
 
+chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html
 exec php-fpm
