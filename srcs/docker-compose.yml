@@ -26,19 +26,18 @@ services:
     build: requirements/nginx
     container_name: nginx
     env_file: .env
-    environment:
-      NGINX_HOST: ${NGINX_HOST}
-      NGINX_PORT: ${NGINX_PORT}
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:80"]
       interval: 10s
       retries: 5
       start_period: 30s
       timeout: 10s
+    depends_on:
+      - wordpress
     ports:
-      - "80:80"
+      - "443:443"
     volumes:
-      - nginx_data:/var/www/html
+      - wordpress_data:/var/www/html
     networks:
       - inception
     restart: on-failure
@@ -58,13 +57,16 @@ services:
       WORDPRESS_ADMIN_PASSWORD: ${WORDPRESS_ADMIN_PASSWORD}
       WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "wp core is-installed --allow-root || exit 1"]
       interval: 10s
       retries: 5
       start_period: 30s
       timeout: 5s
+    ports:
+      - "9000:9000"
     volumes:
       - wordpress_data:/var/www/html
     networks:
@@ -78,4 +80,4 @@ volumes:
 
 networks:
   inception:
-    name: inception
+    driver: bridge

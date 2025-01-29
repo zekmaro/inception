@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:buster
 
 RUN apt-get update && apt-get install -y \
     php \
@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
     apt-get clean
 
 RUN mkdir -p /var/www/html
+
+RUN mkdir -p /run/php
 
 RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz \
     && tar -xvzf wordpress.tar.gz -C /var/www/html \
