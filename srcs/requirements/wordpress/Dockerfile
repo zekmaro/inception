@@ -3,6 +3,7 @@ FROM debian:bullseye
 RUN apt-get update && apt-get install -y \
     php \
     php-mysql \
+    mariadb-client \
     php-fpm \
     curl \
     wget \
@@ -17,6 +18,8 @@ RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz \
 
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x /usr/local/bin/wp
+
+RUN wp core download --path=/var/www/html --allow-root
 
 WORKDIR /var/www/html
 
