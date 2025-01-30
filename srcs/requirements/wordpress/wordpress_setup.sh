@@ -20,11 +20,13 @@ echo "Waiting for MariaDB to be ready..."
 
 echo "Database is up!"
 
-# if [ ! -f /var/www/html/wp-config.php ]; then
-cat /var/www/html/wp-config.php
-ls /var/www/html
+if [ -f /var/www/html/wp-config.php ]; then
+  rm -f /var/www/html/wp-config.php
+fi
 
 echo "Wordpress configuration file not found. Setting it up."
+
+cat ${WORDPRESS_DB_NAME}
 
 wp config create \
   --dbname=${WORDPRESS_DB_NAME} \
@@ -35,9 +37,9 @@ wp config create \
   --allow-root
 
 echo "WordPress configured."
-# fi
 
-# if [ ! -d /var/www/html/wp-content ]; then
+cat /var/www/html/wp-config.php
+
 echo "WordPress not found. Installing it. Setting up admin user."
 
 wp core install \
@@ -50,7 +52,6 @@ wp core install \
   --allow-root
 
 echo "WordPress installed."
-# fi
 
 chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html

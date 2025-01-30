@@ -44,10 +44,12 @@ if [ ! -d /var/lib/mysql/mysql ]; then
 
   echo "[INFO] Configuring MariaDB networking..."
   echo "[mysqld]" > /etc/mysql/my.cnf
-  echo "bind-address = 0.0.0.0" >> /etc/mysql/my.cnf
 
   echo "[INFO] MariaDB setup complete."
 fi
 
 echo "[INFO] Starting MariaDB..."
+
+
 exec mysqld
+
