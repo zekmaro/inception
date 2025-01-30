@@ -2,22 +2,6 @@
 
 echo "Waiting for MariaDB to be ready..."
 
-# max_retries=30
-# retry_delay=2
-# retries=0
-
-# while ! mysqladmin ping -h"${WORDPRESS_DB_HOST}" -u"${WORDPRESS_DB_USER}" -p"${WORDPRESS_DB_PASSWORD}" --silent; do
-#   retries=$((retries+1))
-#   echo "Waiting for database... Attempt $retries/$max_retries"
-  
-#   if [ $retries -ge $max_retries ]; then
-#     echo "Database failed to start after $max_retries attempts."
-#     exit 1
-#   fi
-
-#   sleep $retry_delay
-# done
-
 echo "Database is up!"
 
 if [ -f /var/www/html/wp-config.php ]; then
@@ -37,10 +21,6 @@ wp config create \
   --allow-root
 
 echo "WordPress configured."
-
-cat /var/www/html/wp-config.php
-
-echo "WordPress not found. Installing it. Setting up admin user."
 
 wp core install \
   --url=${WORDPRESS_URL} \

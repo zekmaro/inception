@@ -50,6 +50,4 @@ fi
 
 echo "[INFO] Starting MariaDB..."
 
-
 exec mysqld
-
