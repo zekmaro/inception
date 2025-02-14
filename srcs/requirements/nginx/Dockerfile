@@ -4,6 +4,7 @@ FROM debian:bullseye
 # Update package lists and install required packages
 RUN apt-get update && apt-get install -y \
     nginx \
+    curl \
     openssl && \
     apt-get clean
 

@@ -26,12 +26,6 @@ services:
     build: requirements/nginx
     container_name: nginx
     env_file: .env
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:80"]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
     depends_on:
       - wordpress
     ports:

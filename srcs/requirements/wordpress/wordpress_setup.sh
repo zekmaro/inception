@@ -10,8 +10,6 @@ fi
 
 echo "Wordpress configuration file not found. Setting it up."
 
-cat ${WORDPRESS_DB_NAME}
-
 wp config create \
   --dbname=${WORDPRESS_DB_NAME} \
   --dbuser=${WORDPRESS_DB_USER} \
@@ -39,6 +37,6 @@ chmod -R 755 /var/www/html
 chown -R www-data:www-data /run/php
 chmod -R 755 /run/php
 
-sed -i 's/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
+sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 9000/g' /etc/php/7.4/fpm/pool.d/www.conf
 
-/usr/sbin/php-fpm7.3 -F
+/usr/sbin/php-fpm7.4 -F
