@@ -14,8 +14,6 @@ services:
       retries: 5
       start_period: 20s
       timeout: 5s
-    ports:
-      - "3306:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
@@ -59,8 +57,6 @@ services:
       retries: 5
       start_period: 30s
       timeout: 5s
-    ports:
-      - "9000:9000"
     volumes:
       - wordpress_data:/var/www/html
     networks:
@@ -69,8 +65,22 @@ services:
 
 volumes:
   mariadb_data:
-  nginx_data:
+    name: mariadb_data
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/data/mariadb
+      o: bind
   wordpress_data:
+    name: wordpress_data
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/data/wordpress
+      o: bind
+  portainer_data:
+    name: portainer_data
+    driver: local
 
 networks:
   inception:
