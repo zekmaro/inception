@@ -23,7 +23,7 @@ sleep 5
 
 # Set root password
 echo "[INFO] Setting root password..."
-mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
+mysqladmin -u root password "${MYSQL_ROOT_PASSWORD}"
 
 # Create database if specified
 if [ -n "${MYSQL_DATABASE}" ]; then
